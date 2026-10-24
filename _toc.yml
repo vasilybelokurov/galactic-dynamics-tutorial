@@ -13,3 +13,4 @@ chapters:
   - file: notebooks/09_actions_angles
   - file: notebooks/10_action_dfs
   - file: notebooks/11_solar_neighbourhood
+  - file: notebooks/12_stellar_halo
