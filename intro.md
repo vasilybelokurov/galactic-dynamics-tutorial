@@ -26,6 +26,7 @@ against a known result. The notebooks are executed afresh each time this site is
 | 7 | The Jeans equations: mass profiles from kinematics, the mass–anisotropy degeneracy, asymmetric drift |
 | 8 | Spherical distribution functions: Eddington inversion, sampling, equilibrium tests, Osipkov–Merritt anisotropy |
 | 9 | Actions and angles: adiabatic invariance, spherical actions, frequencies, the Stäckel fudge, tori |
+| 10 | Distribution functions of actions and self-consistent models: a disk galaxy, adiabatic contraction |
 
 More chapters are planned — see the
 [structure](https://github.com/vasilybelokurov/galactic-dynamics-tutorial/blob/main/STRUCTURE.md).

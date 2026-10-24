@@ -11,3 +11,4 @@ chapters:
   - file: notebooks/07_jeans_equations
   - file: notebooks/08_spherical_dfs
   - file: notebooks/09_actions_angles
+  - file: notebooks/10_action_dfs
