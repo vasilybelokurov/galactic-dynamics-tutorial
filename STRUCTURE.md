@@ -24,11 +24,11 @@ testing equilibrium galaxy models with AGAMA.
 
 | Ch | Title | Learning objective | Check (assertable) |
 |---|---|---|---|
-| 0 | Setup & conventions | Run a notebook; units; Cartesian/cylindrical/spherical conventions | cart→cyl→cart round trip of positions and velocities to 1e-12 |
+| 0 | Setup | Install AGAMA; units (`setUnits`); `Potential`, circular speed from `force`, `agama.orbit` | Plummer Φ(0) = −GM/b; v_c vs formula to 1e-10; energy and J_r conserved |
 | 1 | Spherical mass & effective potential | Shell theorem, M(r), V_c, virial theorem; turning points from V_eff (Kepler, homogeneous sphere, Plummer); §1.5 the same with AGAMA (`potential`, `enclosedMass`, `Multipole` from a user density, `Rcirc`, `Rperiapo`) | Kepler roots of E = V_eff give a(1∓e) to 1e-8 a; Plummer V_c peaks at √2 b; AGAMA agrees with hand results |
 | 2 | Integrating an orbit | Leapfrog; accuracy vs conservation; RK4 as exercise; §2.7 `agama.orbit` put through the same tests | leapfrog position error ratio e(h)/e(h/2) ∈ [3.5, 4.5]; no secular energy drift; leapfrog − AGAMA difference ∝ h² |
 | 3 | Spherical orbits with AGAMA | Rosettes, apsidal angle, radial and azimuthal periods; rescaling to physical units | apsidal angle → π (harmonic) and 2π (Kepler) limits; same orbit in G=1 and physical units agrees after rescaling |
-| 4 | Disks & a Milky Way potential | Mestel, exponential (Bessel functions), Miyamoto–Nagai, composite MW model | MN midplane v_c² = GMR²/[R²+(a+b)²]^{3/2} to 1e-6 |
+| 4 | Disks & a Milky Way potential | Cylindrical coordinates; exponential disk (Freeman, Bessel functions), Mestel; Miyamoto–Nagai; composite potentials, MWPotential2014 and McMillan17; rotation curve vs Eilers et al. 2019; dark matter | cart→cyl→cart round trip to 1e-12; AGAMA thin disk vs Freeman to 2e-3, peak at 2.15 R_d; MN v_c and F_z to 1e-10; v_c² of components add; v_c(8 kpc) = 220 km/s (MWPotential2014) |
 | 5 | Axisymmetric orbits & epicycles | L_z, Φ_eff in the meridional plane, κ, ν, Ω; Oort A, B; third integral, surfaces of section | κ/Ω = 1 (Kepler), √2 (flat V_c), 2 (homogeneous); A − B = Ω, A + B = −dV_c/dR |
 | 6 | Ensembles, CBE, phase mixing | Phase-space density, collisionless Boltzmann equation, Jeans theorem, phase mixing, phase spiral | harmonic-oscillator ensemble returns to start after one period (negative control) |
 | 7 | Jeans equations | Spherical Jeans, mass estimators, mass–anisotropy degeneracy, asymmetric drift | isotropic Plummer σ_r² = GM / [6√(r²+b²)] to 1e-4 |
