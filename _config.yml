@@ -23,3 +23,4 @@ html:
 sphinx:
   config:
     html_show_copyright: false
+    myst_links_external_new_tab: true   # Colab badge and other external links open in a new tab
