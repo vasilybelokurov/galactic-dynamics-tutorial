@@ -10,3 +10,4 @@ chapters:
   - file: notebooks/06_phase_mixing
   - file: notebooks/07_jeans_equations
   - file: notebooks/08_spherical_dfs
+  - file: notebooks/09_actions_angles

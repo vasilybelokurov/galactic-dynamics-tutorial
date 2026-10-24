@@ -25,6 +25,7 @@ against a known result. The notebooks are executed afresh each time this site is
 | 6 | Ensembles of stars: Liouville's theorem, phase mixing, the Jeans theorem, the Gaia phase spiral |
 | 7 | The Jeans equations: mass profiles from kinematics, the mass–anisotropy degeneracy, asymmetric drift |
 | 8 | Spherical distribution functions: Eddington inversion, sampling, equilibrium tests, Osipkov–Merritt anisotropy |
+| 9 | Actions and angles: adiabatic invariance, spherical actions, frequencies, the Stäckel fudge, tori |
 
 More chapters are planned — see the
 [structure](https://github.com/vasilybelokurov/galactic-dynamics-tutorial/blob/main/STRUCTURE.md).
