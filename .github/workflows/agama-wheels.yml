@@ -1,0 +1,73 @@
+# Builds ready-made AGAMA wheels for Google Colab (Ubuntu 24.04, x86_64) and
+# attaches them to the "agama-wheels" release of this repository.
+# GSL is compiled statically by AGAMA's setup.py; -march=native is replaced
+# by a portable target so the wheel runs on any x86-64-v2 CPU.
+name: Build AGAMA wheels
+
+on:
+  workflow_dispatch:
+  push:
+    paths: ['.github/workflows/agama-wheels.yml']
+
+permissions:
+  contents: write
+
+env:
+  AGAMA_COMMIT: f302756b8af2b763db58e278e30478517dc8eea3  # GalacticDynamics-Oxford/Agama master, 2026-08-25
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        python: ['3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Fetch AGAMA
+        run: |
+          git clone https://github.com/GalacticDynamics-Oxford/Agama.git agama-src
+          git -C agama-src checkout "$AGAMA_COMMIT"
+      - name: Portable CPU flags
+        run: |
+          sed -i "s/ARCH_FLAG = '-march=native'/ARCH_FLAG = '-march=x86-64-v2'/" agama-src/setup.py
+          grep -q "x86-64-v2" agama-src/setup.py
+      - name: Make sure GSL is not linked dynamically
+        run: sudo apt-get remove -y libgsl-dev || true
+      - name: Build wheel
+        run: |
+          pip install numpy setuptools wheel pytest
+          cd agama-src
+          pip wheel . --no-build-isolation --no-deps -w ../dist --config-settings --build-option=--yes
+      - name: Check shared-library dependencies
+        run: |
+          pip install dist/*.whl
+          SO=$(python -c "import agama, os; print(os.path.join(os.path.dirname(agama.__file__), 'agama.so'))")
+          ldd "$SO"
+          ! ldd "$SO" | grep -q gsl
+      - name: Smoke test
+        run: cd tests && python -m pytest -q test_agama_smoke.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheel-py${{ matrix.python }}
+          path: dist/*.whl
+
+  release:
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Publish to the agama-wheels release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ls -l dist
+          gh release view agama-wheels -R "$GITHUB_REPOSITORY" >/dev/null 2>&1 || \
+            gh release create agama-wheels -R "$GITHUB_REPOSITORY" --title "AGAMA wheels for Colab" \
+              --notes "AGAMA built from GalacticDynamics-Oxford/Agama@$AGAMA_COMMIT for Linux x86_64 (Ubuntu 24.04 / Google Colab). GSL linked statically; -march=x86-64-v2. Source: https://github.com/GalacticDynamics-Oxford/Agama"
+          gh release upload agama-wheels dist/*.whl --clobber -R "$GITHUB_REPOSITORY"
