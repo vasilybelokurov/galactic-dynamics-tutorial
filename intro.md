@@ -4,8 +4,8 @@ A step-by-step tutorial in computational galactic dynamics, from beginner level 
 It uses Python, `numpy`, and the [AGAMA](https://github.com/GalacticDynamics-Oxford/Agama)
 library (Vasiliev 2019, [MNRAS 482, 1525](https://doi.org/10.1093/mnras/sty2672)).
 
-**Who it is for.** Students who know Newtonian mechanics, basic calculus and a little Python,
-and want to learn how stars move in galaxies by computing it themselves.
+**Who it is for.** Students who are interested in galactic dynamics and want to understand it
+by experimenting hands-on.
 
 **How to use it.** Every chapter is a Jupyter notebook. Read it here, or press the
 rocket icon at the top of a chapter and choose **Colab** to run it in your browser — nothing
