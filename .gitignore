@@ -5,3 +5,5 @@ dist/
 agama-src/
 _build/
 .pytest_cache/
+data_build/
+notebooks/data/
