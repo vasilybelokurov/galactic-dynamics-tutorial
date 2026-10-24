@@ -1,0 +1,4 @@
+/* Make code comments stand out from the code (they carry the explanations). */
+/* .c* = comments, .sd = docstrings */
+html[data-theme="light"] .highlight :is(.c, .c1, .cm, .cs, .sd) { color: #c2410c; font-style: italic; }
+html[data-theme="dark"]  .highlight :is(.c, .c1, .cm, .cs, .sd) { color: #fb923c; font-style: italic; }
