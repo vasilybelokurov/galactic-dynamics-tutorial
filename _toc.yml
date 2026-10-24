@@ -6,3 +6,4 @@ chapters:
   - file: notebooks/02_integrating_orbits
   - file: notebooks/03_spherical_orbits
   - file: notebooks/04_disks_milky_way
+  - file: notebooks/05_axisymmetric_orbits
