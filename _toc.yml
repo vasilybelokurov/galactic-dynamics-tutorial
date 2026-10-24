@@ -9,3 +9,4 @@ chapters:
   - file: notebooks/05_axisymmetric_orbits
   - file: notebooks/06_phase_mixing
   - file: notebooks/07_jeans_equations
+  - file: notebooks/08_spherical_dfs
