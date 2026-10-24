@@ -19,6 +19,7 @@ against a known result. The notebooks are executed afresh each time this site is
 | 0 | Setup: installing AGAMA and checking it works |
 | 1 | Spherical mass, circular speed and the effective potential |
 | 2 | Integrating an orbit: Euler, leapfrog, convergence and conservation |
+| 3 | Spherical orbits with AGAMA: radial period, apsidal angle, frequencies, physical units |
 
 More chapters are planned — see the
 [structure](https://github.com/vasilybelokurov/galactic-dynamics-tutorial/blob/main/STRUCTURE.md).
