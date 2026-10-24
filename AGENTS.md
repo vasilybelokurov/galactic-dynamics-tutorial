@@ -19,3 +19,8 @@ step by step, starting at beginner level. It uses
 - Each notebook backs every claim with a plot and an `assert` against a known result.
 - Before pushing: `pytest tests/ --nbmake notebooks/` and `jupyter-book build . -W -n --keep-going`.
 - Units: G = 1 in Chapters 1–2; physical units (kpc, km/s, Msun) once AGAMA is introduced.
+- Comment generously for beginners. At each point of use explain: the physics (which formula a line
+  implements), non-obvious Python/numpy idioms (shapes, broadcasting, `axis=`, scipy calls and their
+  arguments), and AGAMA specifics (units and `setUnits`, argument/return conventions, and the AGAMA
+  built-in that does the same job as a hand formula, e.g. `pot.Rperiapo`, `pot.enclosedMass`).
+- Check every factual statement about AGAMA by running it before publishing.
