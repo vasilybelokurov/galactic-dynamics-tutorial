@@ -18,7 +18,8 @@ step by step, starting at beginner level. It uses
 - Chapters are `notebooks/NN_<slug>.ipynb`, committed without outputs; each runs standalone in Colab.
 - Each notebook backs every claim with a plot and an `assert` against a known result.
 - Before pushing: `pytest tests/ --nbmake notebooks/` and `jupyter-book build . -W -n --keep-going`.
-- Units: G = 1 in Chapters 1–2; physical units (kpc, km/s, Msun) once AGAMA is introduced.
+- Units: G = 1 in Chapters 1–3 (AGAMA without `setUnits`); physical units (kpc, km/s, Msun) afterwards.
+- Every chapter connects back to AGAMA; a hand-built chapter ends with "The same with AGAMA".
 - Comment generously for beginners. At each point of use explain: the physics (which formula a line
   implements), non-obvious Python/numpy idioms (shapes, broadcasting, `axis=`, scipy calls and their
   arguments), and AGAMA specifics (units and `setUnits`, argument/return conventions, and the AGAMA
