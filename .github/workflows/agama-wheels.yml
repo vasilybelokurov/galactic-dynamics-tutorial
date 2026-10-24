@@ -32,7 +32,7 @@ jobs:
           git -C agama-src checkout "$AGAMA_COMMIT"
       - name: Portable CPU flags
         run: |
-          sed -i "s/ARCH_FLAG = '-march=native'/ARCH_FLAG = '-march=x86-64-v2'/" agama-src/setup.py
+          sed -i "s/'-march=native'/'-march=x86-64-v2'/" agama-src/setup.py
           grep -q "x86-64-v2" agama-src/setup.py
       - name: Make sure GSL is not linked dynamically
         run: sudo apt-get remove -y libgsl-dev || true
