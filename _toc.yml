@@ -8,3 +8,4 @@ chapters:
   - file: notebooks/04_disks_milky_way
   - file: notebooks/05_axisymmetric_orbits
   - file: notebooks/06_phase_mixing
+  - file: notebooks/07_jeans_equations

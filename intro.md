@@ -23,6 +23,7 @@ against a known result. The notebooks are executed afresh each time this site is
 | 4 | Disks and a Milky Way potential: exponential and Miyamoto–Nagai disks, rotation curve, dark matter |
 | 5 | Orbits in axisymmetric galaxies: the third integral, surfaces of section, epicycles, Oort constants |
 | 6 | Ensembles of stars: Liouville's theorem, phase mixing, the Jeans theorem, the Gaia phase spiral |
+| 7 | The Jeans equations: mass profiles from kinematics, the mass–anisotropy degeneracy, asymmetric drift |
 
 More chapters are planned — see the
 [structure](https://github.com/vasilybelokurov/galactic-dynamics-tutorial/blob/main/STRUCTURE.md).
