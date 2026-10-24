@@ -1,0 +1,25 @@
+title: Galactic Dynamics with AGAMA
+author: Vasily Belokurov
+copyright: "2026"
+only_build_toc_files: true
+exclude_patterns: [_build, .pytest_cache, "**/.pytest_cache", README.md, AGENTS.md, STRUCTURE.md]
+
+execute:
+  execute_notebooks: force
+  timeout: 900
+
+repository:
+  url: https://github.com/vasilybelokurov/galactic-dynamics-tutorial
+  branch: main
+
+launch_buttons:
+  colab_url: https://colab.research.google.com
+  notebook_interface: classic
+
+html:
+  use_repository_button: true
+  use_issues_button: true
+
+sphinx:
+  config:
+    html_show_copyright: false

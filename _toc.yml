@@ -1,0 +1,6 @@
+format: jb-book
+root: intro
+chapters:
+  - file: notebooks/00_setup
+  - file: notebooks/01_spherical_mass
+  - file: notebooks/02_integrating_orbits

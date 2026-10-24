@@ -4,7 +4,9 @@ A step-by-step Python tutorial in computational galactic dynamics, from beginner
 upwards, built on [AGAMA](https://github.com/GalacticDynamics-Oxford/Agama)
 (Vasiliev 2019, [MNRAS 482, 1525](https://doi.org/10.1093/mnras/sty2672)).
 
-Status: in development. The planned chapters are in [STRUCTURE.md](STRUCTURE.md).
+**Read online:** https://vasilybelokurov.github.io/galactic-dynamics-tutorial/
+
+Status: in development (Chapters 0–2). The planned chapters are in [STRUCTURE.md](STRUCTURE.md).
 
 ## Run in the browser
 
@@ -19,8 +21,8 @@ The first cell installs a ready-made AGAMA wheel from this repository's
 Install AGAMA following its [INSTALL](https://github.com/GalacticDynamics-Oxford/Agama/blob/master/INSTALL) notes, then
 
 ```bash
-pip install numpy matplotlib jupyter pytest
-pytest tests/
+pip install -r requirements.txt jupyter pytest nbmake
+pytest tests/ --nbmake notebooks/
 jupyter lab notebooks/
 ```
 

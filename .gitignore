@@ -3,3 +3,5 @@ __pycache__/
 .DS_Store
 dist/
 agama-src/
+_build/
+.pytest_cache/

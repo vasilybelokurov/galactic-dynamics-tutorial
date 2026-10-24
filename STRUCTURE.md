@@ -53,16 +53,24 @@ Appendices: special functions (Legendre, Bessel); orbital elements.
 ## Repository layout
 
 ```
-notebooks/      chNN_<slug>.ipynb, one per chapter (teaching source)
-src/galdyn/     reusable functions, organised by responsibility (integrators, potentials, ...)
+notebooks/      NN_<slug>.ipynb, one per chapter (canonical teaching source, committed without outputs)
 tests/          pytest tests against analytic results
+_config.yml     Jupyter Book 1.0.4.post1 configuration (Colab launch buttons)
+_toc.yml        book table of contents; intro.md is the landing page
+.github/workflows/agama-wheels.yml   builds ready-made AGAMA wheels (release `agama-wheels`)
+.github/workflows/book.yml           tests, executes and publishes the book on every push
 ```
+
+Each notebook is self-contained, so that it runs in Colab from a single file. A shared package
+(`src/galdyn/`) will be added only when later chapters reuse the same code.
 
 ## Testing
 
-- `pytest tests/`: analytic and convergence checks for `src/galdyn`.
-- `pytest --nbmake notebooks/`: executes every notebook in a fresh kernel (this also
-  isolates `setUnits`). Notebooks contain explicit `assert` cells.
+- `pytest tests/ --nbmake notebooks/`: runs the tests and executes every notebook in a fresh
+  kernel (this also isolates `agama.setUnits`). Notebooks contain explicit `assert` cells.
+- `jupyter-book build . -W -n --keep-going`: re-executes all notebooks and fails on any warning.
+- Both run in CI on every push; the site is published to
+  https://vasilybelokurov.github.io/galactic-dynamics-tutorial/
 - Fixed random seeds; pinned AGAMA version.
 
 ## Online delivery
