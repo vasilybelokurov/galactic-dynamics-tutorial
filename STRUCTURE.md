@@ -75,28 +75,30 @@ distribution (`agama-1.0.0.tar.gz`), so every install compiles.
 | Option | Runs where | AGAMA feasible? | Status |
 |---|---|---|---|
 | Static site (Jupyter Book, pre-executed outputs) | nothing runs; read only | yes | baseline: always provide |
-| Google Colab ("Open in Colab" button) | Google VM, browser UI | yes, with the install cell below | TESTED 2026-10-24: builds in 6 min 4 s on 2 cores; smoke test passes |
+| Google Colab ("Open in Colab" button) | Google VM, browser UI | yes, with the install cell below | TESTED 2026-10-24: ready-made wheel installs in 11 s; smoke test passes |
 | Binder (mybinder.org) | free JupyterHub VM | yes: `apt.txt` (libgsl-dev) + `requirements.txt`; image built once and cached | UNVERIFIED |
 | JupyterLite / Pyodide (true in-browser WebAssembly) | user's browser | not out of the box: no AGAMA wasm wheel, GSL not in Pyodide, no OpenMP | would need a custom Emscripten build of GSL + AGAMA |
 
 Plan: a Jupyter Book site with pre-executed outputs, plus Colab and Binder launch
 buttons on every chapter. Ch 1–2 (numpy only) can also run in JupyterLite.
 
-Colab install cell (tested 2026-10-24; Ubuntu 24.04, Python 3.13.16, 2 CPUs):
+Colab install cell (tested 2026-10-24 on a fresh Colab runtime: 11 s; see `notebooks/00_setup.ipynb`):
 
 ```python
-!apt-get -qq install -y libgsl-dev
-!pip install --no-build-isolation "git+https://github.com/GalacticDynamics-Oxford/Agama.git" --config-settings --build-option=--yes
+import sys, importlib.util
+if importlib.util.find_spec('agama') is None:
+    v = f'cp{sys.version_info.major}{sys.version_info.minor}'
+    !pip install -q "https://github.com/vasilybelokurov/galactic-dynamics-tutorial/releases/download/agama-wheels/agama-1.0-{v}-{v}-linux_x86_64.whl"
 ```
 
-- `pip install agama` from PyPI FAILS on Colab: the PyPI sdist (1.0.0, 1.3 kB) is a
-  stub, and its wheel build exits with no output.
-- The GitHub build gives AGAMA 1.0.161 with OpenMP, GSL, Eigen and CVXOPT.
-- Smoke test on Colab: Φ(0) of a Plummer model equals −GM/b exactly; max |ΔE/E| = 7.4e−7
-  over a 10-time-unit orbit; Jr std/mean along the orbit = 3.5e−6; sampling 1e5
-  particles took 2.1 s; sampled σ_r² at r ≈ b is 5042 (km/s)² vs analytic 5069 (−0.5%).
-- Cost: about 6 min per fresh Colab session. Fix: build a prebuilt Linux wheel (GSL bundled,
-  no `-march=native`) and host it on GitHub releases, so the install takes seconds.
+- Wheels for Python 3.12 and 3.13 are built by `.github/workflows/agama-wheels.yml` from
+  GalacticDynamics-Oxford/Agama@f302756 on Ubuntu 24.04 with GSL linked statically and
+  `-march=x86-64-v2`; CI runs `tests/test_agama_smoke.py` before publishing.
+- When Colab moves to a new Python version, add it to the workflow matrix and re-run it.
+- `pip install agama` from PyPI FAILS on Colab (the 1.0.0 sdist is a 1.3 kB stub). Fallback
+  if no wheel matches: `apt-get install libgsl-dev` and
+  `pip install --no-build-isolation git+https://github.com/GalacticDynamics-Oxford/Agama.git --config-settings --build-option=--yes`
+  (about 6 min).
 
 ## Sources
 
