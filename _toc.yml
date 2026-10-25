@@ -14,3 +14,4 @@ chapters:
   - file: notebooks/10_action_dfs
   - file: notebooks/11_solar_neighbourhood
   - file: notebooks/12_stellar_halo
+  - file: notebooks/13_galactic_bar

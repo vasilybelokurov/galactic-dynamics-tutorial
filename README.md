@@ -6,7 +6,7 @@ upwards, built on [AGAMA](https://github.com/GalacticDynamics-Oxford/Agama)
 
 **Read online:** https://vasilybelokurov.github.io/galactic-dynamics-tutorial/
 
-Status: in development (Chapters 0–12). The planned chapters are in [STRUCTURE.md](STRUCTURE.md).
+Status: in development (Chapters 0–13). The planned chapters are in [STRUCTURE.md](STRUCTURE.md).
 
 ## Run in the browser
 
