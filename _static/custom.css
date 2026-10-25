@@ -2,3 +2,7 @@
 /* .c* = comments, .sd = docstrings */
 html[data-theme="light"] .highlight :is(.c, .c1, .cm, .cs, .sd) { color: #c2410c; font-style: italic; }
 html[data-theme="dark"]  .highlight :is(.c, .c1, .cm, .cs, .sd) { color: #fb923c; font-style: italic; }
+
+/* Use the full window width: the theme centres the page in a 88rem column, which leaves an empty margin
+   to the left of the navigation bar on wide screens. The text column keeps its own readable width. */
+.bd-page-width { max-width: 100%; }
