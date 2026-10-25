@@ -33,7 +33,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: notebooks/data
-          key: zenodo-23627795
+          key: zenodo-23646482
       - name: Tests and notebooks
         run: pytest -q tests/ --nbmake notebooks/ --nbmake-timeout=900
       - name: Build book

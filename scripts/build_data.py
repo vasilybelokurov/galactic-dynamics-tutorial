@@ -1,7 +1,7 @@
-"""Build the data files for the data chapters (11-13); they are published on Zenodo, not in this repo:
-https://doi.org/10.5281/zenodo.23627795 (licence CC BY-NC 4.0; the record's README.md documents every file).
+"""Build the data files for the data chapters (11-15); they are published on Zenodo, not in this repo:
+https://doi.org/10.5281/zenodo.23646482 (licence CC BY-NC 4.0; the record's README.md documents every file).
 
-Usage:  python scripts/build_data.py [solar_neighbourhood|halo_gse|disc_giants|rotation_curves|dsph_gaia|all]
+Usage:  python scripts/build_data.py [solar_neighbourhood|halo_gse|disc_giants|rotation_curves|dsph_gaia|halo_chevrons|all]
         (writes data_build/*.parquet)
 
 Needs access to WSDB (https://wsdb.readthedocs.io, Cambridge) through sqlutilpy. The same tables are
@@ -65,7 +65,8 @@ KEEP64 = {"source_id", "ra", "dec"}
 # The solar-neighbourhood file is the big one (3.6 M rows), so it is slimmed: positions in float32
 # (0.08 arcsec resolution, irrelevant for dynamics) and columns it does not need dropped (RUWE was cut on).
 SLIM = {"solar_neighbourhood": dict(keep64={"source_id"},
-                                    drop={"ruwe", "pmra_pmdec_corr", "teff", "in_training_sample"})}
+                                    drop={"ruwe", "pmra_pmdec_corr", "teff", "in_training_sample"}),
+        "halo_chevrons": dict(keep64={"source_id"}, drop=set())}
 
 
 def save(name, d):
@@ -173,9 +174,41 @@ def build_dsph_gaia():
     return save("dsph_gaia", d)
 
 
+# Halo-like stars for the bar-resonance chapter: Gaia DR3 stars with radial velocities and the XP-based parallaxes,
+# metallicities and quality flags of Zhang, Green & Rix 2023 (https://ui.adsabs.harvard.edu/abs/2023MNRAS.524.1855Z;
+# data https://doi.org/10.5281/zenodo.7692680), with the cuts of Dillamore et al. 2024
+# (https://ui.adsabs.harvard.edu/abs/2024MNRAS.532.4389D): quality_flags < 8, parallax/error > 10, distance < 15 kpc
+# (22.45 M stars). To keep the file small we then keep only orbits with |L_z| < 1000 kpc km/s, computed with the
+# tutorial's solar parameters (R0 = 8.122 kpc, z_sun = 20.8 pc, v_sun = (12.9, 245.6, 7.78) km/s).
+CHEVRON_SQL = """
+    SELECT g.source_id, g.ra, g.dec, z.plx_est AS parallax, z.plx_err AS parallax_error,
+           g.pmra, g.pmra_error, g.pmdec, g.pmdec_error,
+           g.radial_velocity - CASE WHEN g.rv_template_teff < 8500 AND g.grvs_mag >= 11
+                                    THEN 0.02755 * g.grvs_mag ^ 2 - 0.55863 * g.grvs_mag + 2.81129 ELSE 0 END
+               AS radial_velocity,
+           g.radial_velocity_error, g.phot_g_mean_mag, z.feh_est AS feh
+    FROM gaia_dr3_aux.gaia_source_rv g JOIN zhang_rix_2023.stellar_parameters_v1_2 z ON z.gdr3_source_id = g.source_id
+    WHERE g.radial_velocity IS NOT NULL AND z.quality_flags < 8 AND z.plx_est > 10 * z.plx_err AND z.plx_est > 1. / 15"""
+
+
+def build_halo_chevrons():
+    import astropy.units as u
+    from astropy.coordinates import SkyCoord, Galactocentric, CartesianDifferential
+    d = sqlutil.get(CHEVRON_SQL, asDict=True)
+    c = SkyCoord(ra=d["ra"] * u.deg, dec=d["dec"] * u.deg, distance=(1 / d["parallax"]) * u.kpc,
+                 pm_ra_cosdec=d["pmra"] * u.mas / u.yr, pm_dec=d["pmdec"] * u.mas / u.yr,
+                 radial_velocity=d["radial_velocity"] * u.km / u.s)
+    g = c.transform_to(Galactocentric(galcen_distance=8.122 * u.kpc, z_sun=20.8 * u.pc,
+                                      galcen_v_sun=CartesianDifferential([12.9, 245.6, 7.78] * u.km / u.s)))
+    Lz = (g.x * g.v_y - g.y * g.v_x).to_value(u.kpc * u.km / u.s)      # Sun at x < 0: disk stars have Lz < 0
+    keep = np.abs(Lz) < 1000
+    print(f"Gaia RVS x Zhang+23 with the Dillamore+24 cuts: {len(Lz):,}; with |Lz| < 1000: {keep.sum():,}")
+    return save("halo_chevrons", {k: v[keep] for k, v in d.items()})
+
+
 BUILDERS = {**{name: (lambda n=name: save(n, sqlutil.get(QUERIES[n], asDict=True))) for name in QUERIES},
             "disc_giants": build_disc_giants, "rotation_curves": build_rotation_curves,
-            "dsph_gaia": build_dsph_gaia}
+            "dsph_gaia": build_dsph_gaia, "halo_chevrons": build_halo_chevrons}
 
 if __name__ == "__main__":
     which = sys.argv[1] if len(sys.argv) > 1 else "all"
